@@ -8,10 +8,12 @@
     """,
     'author': "Adam Mitrenga",
     'website': "https://www.vilgain.cz",
-    'category': 'Learning',
+    'category': 'Education',
     'version': '18.0.1.0.0',
     'depends': ['base'],
     'data': [
+        'security/groups.xml',
+        'security/record_rules.xml',
         'security/ir.model.access.csv',
         'views/course_views.xml',
         'views/res_users_views.xml',
