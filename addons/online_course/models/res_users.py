@@ -1,109 +1,88 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from ..services.user_services import UserCourseService
+
 
 class ResUsers(models.Model):
-    _inherit = 'res.users'
-    _description = 'Extended User with Course Functionality'
+    """Extended User model with course functionality."""
 
-    # Teacher fields
+    _inherit = "res.users"
+    _description = "Extended User with Course Functionality"
+
+    # ===== COURSE-RELATED FIELDS =====
     taught_course_ids = fields.One2many(
-        'online.course', 'teacher_id', string='Taught Courses'
+        "online.course",
+        "teacher_id",
+        string="Taught Courses",
+        help="Courses where this user is the teacher",
     )
 
     taught_course_count = fields.Integer(
         string="Taught Courses",
-        compute='_compute_taught_course_count'
+        compute="_compute_taught_course_count",
+        help="Number of courses this user teaches",
     )
 
-    # Student fields  
     enrolled_course_ids = fields.Many2many(
-        'online.course',
-        'course_student_enrollment_rel',
-        'user_id',
-        'course_id',
-        string='Enrolled Courses',
-        compute='_compute_enrolled_courses'
+        "online.course",
+        "course_student_enrollment_rel",
+        "user_id",
+        "course_id",
+        string="Enrolled Courses",
+        compute="_compute_enrolled_courses",
+        help="Courses where this user is enrolled as a student",
     )
 
     enrolled_course_count = fields.Integer(
         string="Enrolled Courses",
-        compute='_compute_enrolled_course_count'
+        compute="_compute_enrolled_course_count",
+        help="Number of courses this user is enrolled in",
     )
 
-    # Common course count (role-based)
     course_count = fields.Integer(
         string="Course Count",
-        compute='_compute_course_count'
+        compute="_compute_course_count",
+        help="Total course count based on user role",
     )
 
-    @api.depends('taught_course_ids')
+    # ===== COMPUTE METHODS =====
+    @api.depends("taught_course_ids")
     def _compute_taught_course_count(self):
-        """Count taught courses."""
+        """Count taught courses efficiently."""
         for user in self:
             user.taught_course_count = len(user.taught_course_ids)
 
     def _compute_enrolled_courses(self):
-        """Find courses where user is enrolled."""
+        """Find courses where user is enrolled as student."""
+        course_service = self._get_course_service()
         for user in self:
-            courses = self.env['online.course'].search([
-                ('student_ids', 'in', [user.id])
-            ])
-            user.enrolled_course_ids = courses
+            user.enrolled_course_ids = course_service.get_user_enrolled_courses(user)
 
-    @api.depends('enrolled_course_ids')
+    @api.depends("enrolled_course_ids")
     def _compute_enrolled_course_count(self):
-        """Count enrolled courses."""
+        """Count enrolled courses efficiently."""
         for user in self:
             user.enrolled_course_count = len(user.enrolled_course_ids)
 
-    @api.depends('taught_course_count', 'enrolled_course_count')
+    @api.depends("taught_course_count", "enrolled_course_count")
     def _compute_course_count(self):
         """Compute total course count based on user role."""
         for user in self:
-            if user.has_group('online_course.group_online_course_teacher'):
-                user.course_count = user.taught_course_count
-            elif user.has_group('online_course.group_online_course_student'):
-                user.course_count = user.enrolled_course_count
-            else:
-                user.course_count = 0
+            user.course_count = self._get_course_service().get_user_course_count(user)
 
-    def _get_course_action(self, name, domain, context=None):
-        """Common method for course actions."""
-        self.ensure_one()
-        return {
-            'name': name,
-            'type': 'ir.actions.act_window',
-            'res_model': 'online.course',
-            'view_mode': 'kanban,list,form',
-            'domain': domain,
-            'context': context or {}
-        }
+    def _get_course_service(self):
+        """Get user course service instance."""
+        return UserCourseService(self.env)
 
+    # ===== ACTION METHODS =====
     def action_view_taught_courses(self):
         """View courses I teach."""
-        return self._get_course_action(
-            name='Courses I Teach',
-            domain=[('teacher_id', '=', self.id)],
-            context={'default_teacher_id': self.id}
-        )
+        return self._get_course_service().get_taught_courses_action(self)
 
     def action_view_enrolled_courses(self):
         """View courses I'm enrolled in."""
-        return self._get_course_action(
-            name='My Enrolled Courses',
-            domain=[('student_ids', 'in', [self.id])]
-        )
+        return self._get_course_service().get_enrolled_courses_action(self)
 
     def action_view_courses(self):
         """Dynamic course view based on user role."""
-        self.ensure_one()
-        
-        if self.has_group('online_course.group_online_course_teacher'):
-            return self.action_view_taught_courses()
-        elif self.has_group('online_course.group_online_course_student'):
-            return self.action_view_enrolled_courses()
-        else:
-            return self._get_course_action(
-                name='All Courses',
-                domain=[('state', '=', 'published')]
-            )
+        return self._get_course_service().get_user_courses_action(self)
