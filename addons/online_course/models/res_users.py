@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from typing import Any, Dict
 from odoo import models, fields, api
 from ..services.user_services import UserCourseService
 
@@ -47,42 +48,42 @@ class ResUsers(models.Model):
 
     # ===== COMPUTE METHODS =====
     @api.depends("taught_course_ids")
-    def _compute_taught_course_count(self):
+    def _compute_taught_course_count(self) -> None:
         """Count taught courses efficiently."""
         for user in self:
             user.taught_course_count = len(user.taught_course_ids)
 
-    def _compute_enrolled_courses(self):
+    def _compute_enrolled_courses(self) -> None:
         """Find courses where user is enrolled as student."""
         course_service = self._get_course_service()
         for user in self:
             user.enrolled_course_ids = course_service.get_user_enrolled_courses(user)
 
     @api.depends("enrolled_course_ids")
-    def _compute_enrolled_course_count(self):
+    def _compute_enrolled_course_count(self) -> None:
         """Count enrolled courses efficiently."""
         for user in self:
             user.enrolled_course_count = len(user.enrolled_course_ids)
 
     @api.depends("taught_course_count", "enrolled_course_count")
-    def _compute_course_count(self):
+    def _compute_course_count(self) -> None:
         """Compute total course count based on user role."""
         for user in self:
             user.course_count = self._get_course_service().get_user_course_count(user)
 
-    def _get_course_service(self):
+    def _get_course_service(self) -> UserCourseService:
         """Get user course service instance."""
         return UserCourseService(self.env)
 
     # ===== ACTION METHODS =====
-    def action_view_taught_courses(self):
+    def action_view_taught_courses(self) -> Dict[str, Any]:
         """View courses I teach."""
         return self._get_course_service().get_taught_courses_action(self)
 
-    def action_view_enrolled_courses(self):
+    def action_view_enrolled_courses(self) -> Dict[str, Any]:
         """View courses I'm enrolled in."""
         return self._get_course_service().get_enrolled_courses_action(self)
 
-    def action_view_courses(self):
+    def action_view_courses(self) -> Dict[str, Any]:
         """Dynamic course view based on user role."""
         return self._get_course_service().get_user_courses_action(self)
