@@ -61,18 +61,15 @@ class ResUsers(models.Model):
 
     @api.depends("enrolled_course_ids")
     def _compute_enrolled_course_count(self) -> None:
-        """Count enrolled courses efficiently."""
         for user in self:
             user.enrolled_course_count = len(user.enrolled_course_ids)
 
     @api.depends("taught_course_count", "enrolled_course_count")
     def _compute_course_count(self) -> None:
-        """Compute total course count based on user role."""
         for user in self:
             user.course_count = self._get_course_service().get_user_course_count(user)
 
     def _get_course_service(self) -> UserCourseService:
-        """Get user course service instance."""
         return UserCourseService(self.env)
 
     # ===== ACTION METHODS =====

@@ -1,1 +1,1 @@
-from . import test_course
+from . import test_course  # noqa: F401

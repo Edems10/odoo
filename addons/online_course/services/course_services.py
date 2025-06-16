@@ -33,11 +33,11 @@ class CourseSecurityService:
 class CourseEnrollmentService:
     """Handles course enrollment operations."""
 
-    def __init__(self, env)-> None:
+    def __init__(self, env) -> None:
         self.env = env
         self.validator = EnrollmentValidator()
 
-    def enroll_student(self, course, student)-> Dict[str, Any]:
+    def enroll_student(self, course, student) -> Dict[str, Any]:
         """Enroll a student in a course."""
         self.validator.validate(course, student)
         course.sudo().write({"student_ids": [(4, student.id)]})

@@ -75,14 +75,13 @@
         </field>
     </record>
 
-    <!-- ✅ CORRECTED Form View -->
+    <!-- Form View -->
     <record id="view_online_course_form" model="ir.ui.view">
         <field name="name">online.course.form</field>
         <field name="model">online.course</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <!-- ✅ ONLY management buttons in header -->
                     <button name="action_publish" string="📢 Publish" 
                             type="object" class="btn-primary" 
                             invisible="state != 'draft'"
@@ -128,7 +127,6 @@
                     <field name="can_edit_price" invisible="1"/>
                     <field name="can_edit_teacher" invisible="1"/>
 
-                    <!-- ✅ Smart Button in correct location -->
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="object" name="action_view_students"
                                 groups="online_course.group_online_course_teacher,base.group_system">
@@ -171,12 +169,10 @@
                                    force_save="1"/>
                         </page>
                         <page string="Students">
-                            <!-- ✅ For Teachers: Editable student list -->
                             <field name="student_ids" 
                                    widget="many2many_tags" 
                                    groups="online_course.group_online_course_teacher,base.group_system"/>
                             
-                            <!-- ✅ For Students: Read-only student list -->
                             <field name="student_ids" 
                                    widget="many2many_tags" 
                                    readonly="1"
@@ -189,7 +185,7 @@
         </field>
     </record>
 
-    <!-- Enhanced List View -->
+    <!-- List View -->
     <record id="view_online_course_list" model="ir.ui.view">
         <field name="name">online.course.list</field>
         <field name="model">online.course</field>
@@ -244,7 +240,7 @@
         <field name="context">{'default_teacher_id': uid}</field>
     </record>
 
-    <!-- Menu Items with consistent group references -->
+
     <menuitem id="menu_online_course_root" name="Online Courses" sequence="10"/>
 
     <!-- For Teachers -->

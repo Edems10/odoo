@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from odoo.api import Environment
 from ..static.constants import CourseConstants
 
 
 class UserCourseService:
     """Service for handling user-course relationships."""
 
-    def __init__(self, env):
+    def __init__(self, env: Environment) -> None:
         self.env = env
         self.course_model = env["online.course"]
 

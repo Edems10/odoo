@@ -6,7 +6,9 @@ class NotificationFactory:
     """Factory for creating notifications."""
 
     @staticmethod
-    def _create_notification(title: str, message: str, notification_type:str ="success"):
+    def _create_notification(
+        title: str, message: str, notification_type: str = "success"
+    ):
         """Base notification creation."""
         return {
             "type": "ir.actions.client",
