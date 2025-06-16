@@ -127,7 +127,7 @@ class Course(models.Model):
     def _get_state_service(self) -> CourseStateService:
         return CourseStateService(self.env)
 
-    @api.model
+    @api.model_create_multi
     def create(
         self, vals_list: Union[Dict[str, Any], List[Dict[str, Any]]]
     ) -> "Course":
