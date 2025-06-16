@@ -2,8 +2,8 @@
 from odoo import models, fields, api
 
 class ResUsers(models.Model):
-    _inherit = 'res.users'  # ONLY inherit from res.users
-    _description = 'Extended User with Course Functionality'  # Fix the warning
+    _inherit = 'res.users'
+    _description = 'Extended User with Course Functionality'
 
     # Teacher fields
     taught_course_ids = fields.One2many(
@@ -18,7 +18,7 @@ class ResUsers(models.Model):
     # Student fields  
     enrolled_course_ids = fields.Many2many(
         'online.course',
-        'course_student_enrollment_rel',  # Unique relation name
+        'course_student_enrollment_rel',
         'user_id',
         'course_id',
         string='Enrolled Courses',
