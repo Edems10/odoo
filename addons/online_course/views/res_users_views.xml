@@ -12,7 +12,7 @@
                         type="object"
                         name="action_view_taught_courses"
                         icon="fa-chalkboard-teacher"
-                        groups="group_online_course_teacher">
+                        groups="online_course.group_online_course_teacher">
                     <field string="Teaching" name="taught_course_count" widget="statinfo"/>
                 </button>
 
@@ -21,7 +21,7 @@
                         type="object" 
                         name="action_view_enrolled_courses"
                         icon="fa-graduation-cap"
-                        groups="group_online_course_student">
+                        groups="online_course.group_online_course_student">
                     <field string="My Courses" name="enrolled_course_count" widget="statinfo"/>
                 </button>
 
