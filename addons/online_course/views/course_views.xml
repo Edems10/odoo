@@ -210,6 +210,7 @@
         <field name="name">All Courses</field>
         <field name="res_model">online.course</field>
         <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'default_teacher_id': uid}</field>
     </record>
 
     <record id="action_online_course_free" model="ir.actions.act_window">
@@ -217,6 +218,7 @@
         <field name="res_model">online.course</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('is_free', '=', True)]</field>
+        <field name="context">{'default_teacher_id': uid}</field>
     </record>
 
     <record id="action_online_course_paid" model="ir.actions.act_window">
@@ -224,6 +226,7 @@
         <field name="res_model">online.course</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('is_free', '=', False)]</field>
+        <field name="context">{'default_teacher_id': uid}</field>
     </record>
 
     <record id="action_my_enrolled_courses" model="ir.actions.act_window">
@@ -238,6 +241,7 @@
         <field name="res_model">online.course</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('teacher_id', '=', uid)]</field>
+        <field name="context">{'default_teacher_id': uid}</field>
     </record>
 
     <!-- Menu Items with consistent group references -->

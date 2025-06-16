@@ -103,29 +103,43 @@ class Course(models.Model):
             else:
                 course.course_type_display = f"💰 PAID COURSE (${course.price:.2f})"
 
-    # Security write method
+    # ✅ AUTO-ASSIGN TEACHER ON CREATION
+    @api.model
+    def create(self, vals):
+        """Override create to auto-assign current user as teacher."""
+        # Auto-assign current user as teacher if not specified
+        if 'teacher_id' not in vals or not vals.get('teacher_id'):
+            vals['teacher_id'] = self.env.user.id
+            
+        return super(Course, self).create(vals)
+
+    # ✅ IMPROVED WRITE METHOD FOR CREATION AND EDITING
     def write(self, vals):
         """Override write to enforce field-level security."""
+        # Allow creation without restrictions
+        if not self:  # Creating new record
+            return super(Course, self).write(vals)
+            
         for course in self:
             current_user = self.env.user
             is_admin = current_user.has_group('base.group_system')
             is_course_creator = (course.teacher_id == current_user)
             
-            # Check name changes
-            if 'name' in vals and not (is_admin or is_course_creator):
-                raise AccessError("❌ Only administrators and the course creator can change the course name.")
+            # Special handling for teacher reassignment
+            if 'teacher_id' in vals:
+                if not is_admin:
+                    raise AccessError("❌ Only administrators can reassign course teachers.")
+                # Admin is changing teacher - allow it
+                continue
             
-            # Check description changes
-            if 'description' in vals and not (is_admin or is_course_creator):
-                raise AccessError("❌ Only administrators and the course creator can change the course description.")
+            # For other field changes, check permissions
+            restricted_fields = ['name', 'description', 'price']
+            if any(field in vals for field in restricted_fields):
+                if not (is_admin or is_course_creator):
+                    raise AccessError("❌ Only administrators and the course creator can edit course details.")
             
-            # Check price changes
-            if 'price' in vals and not (is_admin or is_course_creator):
-                raise AccessError("❌ Only administrators and the course creator can change the course price.")
-            
-            # Check teacher reassignment
-            if 'teacher_id' in vals and not is_admin:
-                raise AccessError("❌ Only administrators can reassign course teachers.")
+            # Allow state changes for teachers (publish, close, etc.)
+            # Allow student_ids changes (for enrollment - handled by sudo in methods)
         
         return super(Course, self).write(vals)
 
@@ -142,7 +156,7 @@ class Course(models.Model):
             if course.price < 0:
                 raise ValidationError("Course price cannot be negative.")
 
-    # ✅ MISSING METHODS - ADD THESE
+    # Course management methods
     def action_publish(self):
         """Publish draft courses."""
         for course in self:
