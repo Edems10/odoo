@@ -41,7 +41,7 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click
-                                           #{record.state.raw_value == 'published' ? 'oe_kanban_color_2' : ''}
+                                           #{record.state.raw_value == 'published' ? 'oe_kanban_color_10' : ''}
                                            #{record.state.raw_value == 'closed' ? 'oe_kanban_color_9' : ''}
                                            #{record.state.raw_value == 'draft' ? 'oe_kanban_color_4' : ''}
                                            #{record.state.raw_value == 'archived' ? 'oe_kanban_color_8' : ''}">
