@@ -10,11 +10,12 @@
     "website": "https://www.vilgain.cz",
     "category": "Education",
     "version": "18.0.1.0.0",
+    'license': 'LGPL-3',
     "depends": ["base"],
     "data": [
         "security/groups.xml",
-        "security/record_rules.xml",
         "security/ir.model.access.csv",
+        "security/record_rules.xml",
         "views/course_views.xml",
         "views/res_users_views.xml",
         "views/menus.xml",
