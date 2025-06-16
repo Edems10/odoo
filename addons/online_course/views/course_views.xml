@@ -75,58 +75,63 @@
         </field>
     </record>
 
-    <!-- Form View with Proper Button Security -->
+    <!-- ✅ CORRECTED Form View -->
     <record id="view_online_course_form" model="ir.ui.view">
         <field name="name">online.course.form</field>
         <field name="model">online.course</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <!-- Course Management Buttons - TEACHERS/ADMINS ONLY -->
+                    <!-- ✅ ONLY management buttons in header -->
                     <button name="action_publish" string="📢 Publish" 
                             type="object" class="btn-primary" 
                             invisible="state != 'draft'"
-                            groups="group_online_course_teacher,base.group_system"/>
+                            groups="online_course.group_online_course_teacher,base.group_system"/>
                     
                     <button name="action_close_enrollment" string="🔒 Close Enrollment" 
                             type="object" class="btn-warning" 
                             invisible="state != 'published'"
-                            groups="group_online_course_teacher,base.group_system"/>
+                            groups="online_course.group_online_course_teacher,base.group_system"/>
                     
                     <button name="action_reopen_enrollment" string="🔓 Reopen Enrollment" 
                             type="object" class="btn-success" 
                             invisible="state != 'closed'"
-                            groups="group_online_course_teacher,base.group_system"/>
+                            groups="online_course.group_online_course_teacher,base.group_system"/>
                     
                     <button name="action_archive" string="📚 Archive Course" 
                             type="object" class="btn-secondary" 
                             invisible="state == 'draft'"
-                            groups="group_online_course_teacher,base.group_system"/>
+                            groups="online_course.group_online_course_teacher,base.group_system"/>
                     
                     <button name="action_draft" string="⬅️ Back to Draft" 
                             type="object" 
                             invisible="state == 'draft'"
-                            groups="group_online_course_teacher,base.group_system"/>
+                            groups="online_course.group_online_course_teacher,base.group_system"/>
 
                     <!-- Self-Enrollment Buttons -->
                     <button name="action_self_enroll" string="🎓 Enroll Me" 
                             type="object" class="btn-success"
                             invisible="state != 'published'"
-                            groups="group_online_course_student,group_online_course_teacher"/>
+                            groups="online_course.group_online_course_student,online_course.group_online_course_teacher"/>
 
                     <button name="action_self_unenroll" string="❌ Unenroll Me" 
                             type="object" class="btn-warning"
                             invisible="state == 'draft'"
                             confirm="Are you sure you want to unenroll from this course?"
-                            groups="group_online_course_student,group_online_course_teacher"/>
+                            groups="online_course.group_online_course_student,online_course.group_online_course_teacher"/>
                     
                     <field name="state" widget="statusbar" statusbar_visible="draft,published,closed,archived"/>
                 </header>
                 <sheet>
-                    <!-- Smart Button for Teachers -->
+                    <!-- Hidden helper fields -->
+                    <field name="can_edit_course_details" invisible="1"/>
+                    <field name="can_edit_price" invisible="1"/>
+                    <field name="can_edit_teacher" invisible="1"/>
+
+                    <!-- ✅ Smart Button in correct location -->
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="object" name="action_view_students"
-                                groups="group_online_course_teacher,base.group_system">
+                                groups="online_course.group_online_course_teacher,base.group_system">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="enrolled_count"/>
@@ -137,41 +142,46 @@
                     </div>
 
                     <div class="oe_title">
-                        <h1><field name="name"/></h1>
-                    </div>
-                    
-                    <!-- Enrollment Status Alerts -->
-                    <div class="alert alert-success" invisible="state != 'published'">
-                        <strong>✅ Open for Enrollment:</strong> Click "🎓 Enroll Me" to join this course!
-                    </div>
-                    
-                    <div class="alert alert-warning" invisible="state != 'closed'">
-                        <strong>🔒 Enrollment Closed:</strong> This course is no longer accepting new students.
+                        <h1>
+                            <field name="name" 
+                                   placeholder="e.g. Introduction to Odoo Development"
+                                   readonly="not can_edit_course_details"
+                                   force_save="1"/>
+                        </h1>
                     </div>
 
                     <group>
                         <group>
-                            <field name="teacher_id"/>
-                            <field name="price" widget="monetary"/>
+                            <field name="teacher_id" 
+                                   readonly="not can_edit_teacher"
+                                   force_save="1"/>
+                            
+                            <field name="price" 
+                                   widget="monetary"
+                                   readonly="not can_edit_price"
+                                   force_save="1"/>
+                            
                             <field name="course_type_display" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="description"/>
+                            <field name="description" 
+                                   readonly="not can_edit_course_details"
+                                   force_save="1"/>
                         </page>
                         <page string="Students">
-                            <!-- For Teachers: Editable student list -->
+                            <!-- ✅ For Teachers: Editable student list -->
                             <field name="student_ids" 
                                    widget="many2many_tags" 
-                                   groups="group_online_course_teacher,base.group_system"/>
+                                   groups="online_course.group_online_course_teacher,base.group_system"/>
                             
-                            <!-- For Students: Read-only student list -->
+                            <!-- ✅ For Students: Read-only student list -->
                             <field name="student_ids" 
                                    widget="many2many_tags" 
                                    readonly="1"
                                    options="{'create': False, 'unlink': False}"
-                                   groups="group_online_course_student"/>
+                                   groups="online_course.group_online_course_student"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -230,7 +240,7 @@
         <field name="domain">[('teacher_id', '=', uid)]</field>
     </record>
 
-    <!-- Menu Items -->
+    <!-- Menu Items with consistent group references -->
     <menuitem id="menu_online_course_root" name="Online Courses" sequence="10"/>
 
     <!-- For Teachers -->
@@ -239,7 +249,7 @@
               parent="menu_online_course_root" 
               action="action_my_taught_courses" 
               sequence="5"
-              groups="group_online_course_teacher"/>
+              groups="online_course.group_online_course_teacher"/>
 
     <!-- For Students -->
     <menuitem id="menu_online_course_free" 
@@ -247,14 +257,14 @@
               parent="menu_online_course_root" 
               action="action_online_course_free" 
               sequence="20"
-              groups="group_online_course_student"/>
+              groups="online_course.group_online_course_student"/>
 
     <menuitem id="menu_my_enrolled_courses" 
               name="📚 My Enrolled Courses" 
               parent="menu_online_course_root" 
               action="action_my_enrolled_courses" 
               sequence="15"
-              groups="group_online_course_student"/>
+              groups="online_course.group_online_course_student"/>
 
     <!-- For Everyone -->
     <menuitem id="menu_online_course_all" 
