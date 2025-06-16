@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Published Courses -->
+        <record id="demo_course_python" model="online.course">
+            <field name="name">Introduction to Python Programming</field>
+            <field name="teacher_id" ref="demo_teacher_sarah"/>
+            <field name="price">199.99</field>
+            <field name="state">published</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_alex'), ref('demo_student_lisa'), ref('demo_student_james')])]"/>
+            <field name="description">Master Python programming from scratch! This comprehensive course covers variables, loops, functions, object-oriented programming, and popular libraries like NumPy and Pandas. Perfect for beginners looking to start their coding journey.</field>
+        </record>
+
+        <record id="demo_course_web_dev" model="online.course">
+            <field name="name">Modern Web Development Bootcamp</field>
+            <field name="teacher_id" ref="demo_teacher_michael"/>
+            <field name="price">299.99</field>
+            <field name="state">published</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_maria'), ref('demo_student_kevin'), ref('demo_student_sophie'), ref('demo_student_ryan')])]"/>
+            <field name="description">Build stunning websites and web applications! Learn HTML5, CSS3, JavaScript, React, Node.js, and MongoDB. Includes hands-on projects and deployment strategies. No prior experience required.</field>
+        </record>
+
+        <record id="demo_course_data_science" model="online.course">
+            <field name="name">Data Science for Everyone (FREE)</field>
+            <field name="teacher_id" ref="demo_teacher_emma"/>
+            <field name="price">0.0</field>
+            <field name="state">published</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_alex'), ref('demo_student_nina'), ref('demo_student_james'), ref('demo_student_maria'), ref('demo_student_kevin')])]"/>
+            <field name="description">Discover the world of data science! This free introductory course covers data analysis, visualization, statistical concepts, and basic machine learning. Perfect for students, professionals, and curious minds alike.</field>
+        </record>
+
+        <record id="demo_course_ai_ml" model="online.course">
+            <field name="name">Artificial Intelligence &amp; Machine Learning</field>
+            <field name="teacher_id" ref="demo_teacher_sarah"/>
+            <field name="price">499.99</field>
+            <field name="state">published</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_sophie'), ref('demo_student_ryan')])]"/>
+            <field name="description">Dive deep into AI and ML! Advanced course covering neural networks, deep learning, computer vision, natural language processing, and TensorFlow. Requires basic Python knowledge.</field>
+        </record>
+
+        <record id="demo_course_digital_marketing" model="online.course">
+            <field name="name">Digital Marketing Masterclass</field>
+            <field name="teacher_id" ref="demo_teacher_david"/>
+            <field name="price">149.99</field>
+            <field name="state">published</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_lisa'), ref('demo_student_maria'), ref('demo_student_nina')])]"/>
+            <field name="description">Master digital marketing strategies! Learn SEO, social media marketing, Google Ads, content marketing, email campaigns, and analytics. Boost your business or career with proven techniques.</field>
+        </record>
+
+        <!-- Draft Courses -->
+        <record id="demo_course_blockchain" model="online.course">
+            <field name="name">Blockchain Development Fundamentals</field>
+            <field name="teacher_id" ref="demo_teacher_michael"/>
+            <field name="price">399.99</field>
+            <field name="state">draft</field>
+            <field name="description">Learn blockchain technology and cryptocurrency development! Course covers Bitcoin, Ethereum, smart contracts, Solidity programming, and DeFi concepts. Coming soon!</field>
+        </record>
+
+        <record id="demo_course_cybersecurity" model="online.course">
+            <field name="name">Cybersecurity Essentials</field>
+            <field name="teacher_id" ref="demo_teacher_david"/>
+            <field name="price">249.99</field>
+            <field name="state">draft</field>
+            <field name="description">Protect yourself and your organization! Comprehensive cybersecurity course covering threat analysis, penetration testing, network security, and incident response. Currently in development.</field>
+        </record>
+
+        <!-- Archived Courses -->
+        <record id="demo_course_mobile_app" model="online.course">
+            <field name="name">Mobile App Development with React Native</field>
+            <field name="teacher_id" ref="demo_teacher_emma"/>
+            <field name="price">199.99</field>
+            <field name="state">archived</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_alex'), ref('demo_student_kevin'), ref('demo_student_ryan')])]"/>
+            <field name="description">Build cross-platform mobile apps! This archived course covered React Native, mobile UI/UX design, app deployment, and native device features. Course content available to enrolled students.</field>
+        </record>
+
+        <record id="demo_course_excel" model="online.course">
+            <field name="name">Advanced Excel for Business Analytics</field>
+            <field name="teacher_id" ref="demo_teacher_david"/>
+            <field name="price">99.99</field>
+            <field name="state">archived</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_lisa'), ref('demo_student_nina')])]"/>
+            <field name="description">Master Excel for data analysis! This archived course included advanced formulas, pivot tables, data visualization, and business intelligence techniques. Great foundation for data professionals.</field>
+        </record>
+
+        <!-- Free Course -->
+        <record id="demo_course_git" model="online.course">
+            <field name="name">Git &amp; GitHub for Beginners (FREE)</field>
+            <field name="teacher_id" ref="demo_teacher_michael"/>
+            <field name="price">0.0</field>
+            <field name="state">published</field>
+            <field name="student_ids" eval="[(6, 0, [ref('demo_student_alex'), ref('demo_student_lisa'), ref('demo_student_james'), ref('demo_student_maria'), ref('demo_student_kevin'), ref('demo_student_sophie'), ref('demo_student_ryan'), ref('demo_student_nina')])]"/>
+            <field name="description">Essential version control skills! Free course covering Git basics, GitHub collaboration, branching strategies, and open source contribution. Must-have skills for any developer.</field>
+        </record>
+
+    </data>
+</odoo>

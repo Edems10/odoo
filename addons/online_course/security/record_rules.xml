@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Teacher Record Rule - Enhanced -->
+        <record id="online_course_teacher_rule" model="ir.rule">
+            <field name="name">Teacher: Own courses and published courses</field>
+            <field name="model_id" ref="model_online_course"/>
+            <field name="groups" eval="[(4, ref('group_online_course_teacher'))]"/>
+            <field name="domain_force">['|', 
+                ('teacher_id', '=', user.id),
+                ('state', 'in', ['published', 'closed'])
+            ]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>  <!-- Write is controlled by model constraints -->
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Student Record Rule - Read + Limited Write -->
+        <record id="online_course_student_rule" model="ir.rule">
+            <field name="name">Student: Published courses only</field>
+            <field name="model_id" ref="model_online_course"/>
+            <field name="groups" eval="[(4, ref('group_online_course_student'))]"/>
+            <field name="domain_force">[('state', 'in', ['published', 'closed'])]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>  <!-- Limited by model write() method -->
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Admin Rule -->
+        <record id="online_course_admin_rule" model="ir.rule">
+            <field name="name">Admin: All courses</field>
+            <field name="model_id" ref="model_online_course"/>
+            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

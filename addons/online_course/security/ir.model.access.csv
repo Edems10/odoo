@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_online_course_teacher,online.course.teacher,model_online_course,online_course.group_online_course_teacher,1,1,1,0
+access_online_course_student,online.course.student,model_online_course,online_course.group_online_course_student,1,1,0,0
+access_online_course_admin,online.course.admin,model_online_course,base.group_system,1,1,1,1

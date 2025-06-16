@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Actions for different course types -->
+    <record id="action_online_course_all" model="ir.actions.act_window">
+        <field name="name">All Courses</field>
+        <field name="res_model">online.course</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new course
+            </p>
+        </field>
+    </record>
+
+    <record id="action_online_course_free" model="ir.actions.act_window">
+        <field name="name">Free Courses</field>
+        <field name="res_model">online.course</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_free', '=', True)]</field>
+        <field name="context">{'default_price': 0.0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new free course
+            </p>
+        </field>
+    </record>
+
+    <record id="action_online_course_paid" model="ir.actions.act_window">
+        <field name="name">Paid Courses</field>
+        <field name="res_model">online.course</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_free', '=', False)]</field>
+        <field name="context">{'default_price': 99.99}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new paid course
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_online_course_root" name="Online Courses" sequence="10"/>
+    
+    <menuitem id="menu_online_course_all" 
+              name="All Courses" 
+              parent="menu_online_course_root" 
+              action="action_online_course_all" 
+              sequence="10"/>
+              
+    <menuitem id="menu_online_course_free" 
+              name="Free Courses" 
+              parent="menu_online_course_root" 
+              action="action_online_course_free" 
+              sequence="20"/>
+              
+    <menuitem id="menu_online_course_paid" 
+              name="Paid Courses" 
+              parent="menu_online_course_root" 
+              action="action_online_course_paid" 
+              sequence="30"/>
+
+</odoo>

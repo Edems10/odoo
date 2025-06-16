@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Demo Teachers with Login Capabilities -->
+        <record id="demo_teacher_sarah" model="res.users">
+            <field name="name">Dr. Sarah Johnson</field>
+            <field name="login">demo_sarah@example.com</field>
+            <field name="password">demo123</field>
+            <field name="email">demo_sarah@example.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_teacher')])]"/>
+        </record>
+
+        <record id="demo_teacher_michael" model="res.users">
+            <field name="name">Prof. Michael Chen</field>
+            <field name="login">demo_michael@example.com</field>
+            <field name="password">demo123</field>
+            <field name="email">demo_michael@example.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_teacher')])]"/>
+        </record>
+
+        <record id="demo_teacher_emma" model="res.users">
+            <field name="name">Dr. Emma Wilson</field>
+            <field name="login">demo_emma@example.com</field>
+            <field name="password">demo123</field>
+            <field name="email">demo_emma@example.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_teacher')])]"/>
+        </record>
+
+        <record id="demo_teacher_david" model="res.users">
+            <field name="name">Prof. David Rodriguez</field>
+            <field name="login">demo_david@example.com</field>
+            <field name="password">demo123</field>
+            <field name="email">demo_david@example.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_teacher')])]"/>
+        </record>
+
+        <!-- Demo Students with Login Capabilities -->
+        <record id="demo_student_alex" model="res.users">
+            <field name="name">Alex Thompson</field>
+            <field name="login">demo_alex@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_alex@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_lisa" model="res.users">
+            <field name="name">Lisa Martinez</field>
+            <field name="login">demo_lisa@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_lisa@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_james" model="res.users">
+            <field name="name">James Park</field>
+            <field name="login">demo_james@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_james@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_maria" model="res.users">
+            <field name="name">Maria Garcia</field>
+            <field name="login">demo_maria@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_maria@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_kevin" model="res.users">
+            <field name="name">Kevin Zhang</field>
+            <field name="login">demo_kevin@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_kevin@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_sophie" model="res.users">
+            <field name="name">Sophie Anderson</field>
+            <field name="login">demo_sophie@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_sophie@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_ryan" model="res.users">
+            <field name="name">Ryan O'Connor</field>
+            <field name="login">demo_ryan@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_ryan@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+        <record id="demo_student_nina" model="res.users">
+            <field name="name">Nina Petrov</field>
+            <field name="login">demo_nina@student.com</field>
+            <field name="password">student123</field>
+            <field name="email">demo_nina@student.com</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_online_course_student')])]"/>
+        </record>
+
+    </data>
+</odoo>
