@@ -14,12 +14,12 @@ class ResUsers(models.Model):
     taught_course_ids = fields.One2many(
         "online.course",
         "teacher_id",
-        string="Taught Courses",
+        string="Courses as Teacher",
         help="Courses where this user is the teacher",
     )
 
     taught_course_count = fields.Integer(
-        string="Taught Courses",
+        string="Taught Courses Count",
         compute="_compute_taught_course_count",
         help="Number of courses this user teaches",
     )
@@ -35,7 +35,7 @@ class ResUsers(models.Model):
     )
 
     enrolled_course_count = fields.Integer(
-        string="Enrolled Courses",
+        string="Enrolled Courses Count",
         compute="_compute_enrolled_course_count",
         help="Number of courses this user is enrolled in",
     )
